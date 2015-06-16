@@ -4,8 +4,8 @@
 
 @implementation RDConstants
 
-NSString *const kSyncURL = @"https://demo-mobile.couchbase.com/officeradar";
-// NSString *const kSyncURL = @"http://localhost:4984/officeradar";
+//NSString *const kSyncURL = @"https://demo-mobile.couchbase.com/officeradar";
+ NSString *const kSyncURL = @"http://127.0.0.1:4984/db";
 
 NSString *const kDocType = @"type";
 NSString *const kDocTypeBeacon = @"beacon";

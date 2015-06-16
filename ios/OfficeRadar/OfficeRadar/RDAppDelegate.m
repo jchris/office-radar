@@ -18,6 +18,7 @@
     }
     [self initCouchbaseLiteDatabase];
     [self initOfficeRadarBeaconManager];
+    [self initCouchbaseReduceInto];
     [self initCouchbaseLiteReplications];
     [self registerForPushNotifications];
     
@@ -128,7 +129,77 @@
     
     self.manager = [CBLManager sharedInstance];
     self.database = [RDDatabaseHelper database];
+    self.intoTarget = [RDDatabaseHelper intoTarget];
     
+}
+
+- (void)initCouchbaseReduceInto {
+    self.liveQuery = [self createLiveQuery];
+    [self.liveQuery addObserver: self forKeyPath: @"rows"
+                        options: 0 context: NULL];
+    [self.liveQuery start];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (object == self.liveQuery) {
+        for (CBLQueryRow* row in self.liveQuery.rows) {
+            NSLog(@"key %@ value %@", row.key, row.value);
+            [self saveIntoDocForRow: row];
+        }
+    }
+}
+
+- (void) saveIntoDocForRow:(CBLQueryRow *) row {
+    NSError *err;
+    NSString* rowId = [[NSString alloc]
+                       initWithData:[NSJSONSerialization dataWithJSONObject:@[row.key] options:0 error:&err]
+                       encoding:NSUTF8StringEncoding];
+    CBLDocument* doc = [self.intoTarget documentWithID:[@"into" stringByAppendingString:rowId]];
+    NSLog(@"saveIntoDocForRow %@", rowId);
+    [doc putProperties:@{@"key" : row.key, @"value": row.value, @"type":@"into"} error:&err];
+    if (err != nil) {
+        NSLog(@"err saveIntoDocForRow %@", err);
+    }
+}
+
+
+- (CBLLiveQuery *) createLiveQuery {
+    CBLQuery* query = [self actionCountByHours];
+    query.groupLevel = 1;
+    return [query asLiveQuery];
+}
+
+- (CBLQuery *) actionCountByHours {
+    CBLView* view = [self.database viewNamed: @"hours"];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+
+    if (!view.mapBlock) {
+        // Register the map function, the first time we access the view:
+        [view setMapBlock: MAPBLOCK({
+            if ([doc[@"type"] isEqualToString:@"geofence_event"]) {
+                NSString* dateString = doc[@"created_at"];
+                NSDate *date = [dateFormat dateFromString:dateString];
+                if (date != nil) {
+                    NSDateComponents *components = [calendar components:(NSHourCalendarUnit) fromDate:date];
+
+                    emit([NSNumber numberWithInteger:[components hour]], doc[@"action"]);
+                }
+            }
+        }) reduceBlock:^id(NSArray *keys, NSArray *values, BOOL rereduce) {
+            if (rereduce) {
+                return [CBLView totalValues: values];  // re-reduce mode adds up counts
+            } else {
+                return @(values.count);
+            }
+        } version: @"8"]; // bump version any time you change the view!
+    }
+    return [view createQuery];
 }
 
 - (void)initOfficeRadarBeaconManager {
@@ -145,15 +216,18 @@
     NSURL *syncUrl = [NSURL URLWithString:kSyncURL];
     CBLReplication *pullReplication = [[self database] createPullReplication:syncUrl];
     CBLReplication *pushReplication = [[self database] createPushReplication:syncUrl];
+    CBLReplication *pushInto = [[self intoTarget] createPushReplication:syncUrl];
     
     // websockets disabled until https://github.com/couchbase/couchbase-lite-ios/issues/480 is fixed
     pullReplication.customProperties = @{@"websocket": @NO};
     
     [pullReplication setContinuous:YES];
     [pushReplication setContinuous:YES];
+    [pushInto setContinuous:YES];
     
     [pullReplication start];
     [pushReplication start];
+    [pushInto start];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(replicationProgress:)

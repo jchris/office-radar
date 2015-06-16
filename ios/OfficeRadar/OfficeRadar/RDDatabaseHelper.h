@@ -7,5 +7,6 @@
 
 /** get the couchbase lite database */
 + (CBLDatabase *)database;
++ (CBLDatabase *)intoTarget;
 
 @end
