@@ -12,6 +12,8 @@
 	<dict>
 		<key>3CEAD9F91B3766ACE67A4DD0BCC0B35360438D86</key>
 		<string>https://github.com/couchbaselabs/ToDoLite-iOS.git</string>
+		<key>4AF2E90C7CF48F195ECA826E6DDC3FF05A54F46D</key>
+		<string>https://github.com/couchbaselabs/razor</string>
 		<key>E079BC4B5242D7F4891DE4F32080693ADD19106A</key>
 		<string>https://github.com/tleyden/office-radar.git</string>
 	</dict>
@@ -21,6 +23,8 @@
 	<dict>
 		<key>3CEAD9F91B3766ACE67A4DD0BCC0B35360438D86</key>
 		<string>../../../../../ToDoLite-iOS</string>
+		<key>4AF2E90C7CF48F195ECA826E6DDC3FF05A54F46D</key>
+		<string>../../../../razor/</string>
 		<key>E079BC4B5242D7F4891DE4F32080693ADD19106A</key>
 		<string>../../../..</string>
 	</dict>
@@ -39,6 +43,14 @@
 			<string>E079BC4B5242D7F4891DE4F32080693ADD19106A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>office-radar</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4AF2E90C7CF48F195ECA826E6DDC3FF05A54F46D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>razor</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

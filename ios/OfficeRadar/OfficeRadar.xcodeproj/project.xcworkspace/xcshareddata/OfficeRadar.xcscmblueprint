@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E079BC4B5242D7F4891DE4F32080693ADD19106A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E079BC4B5242D7F4891DE4F32080693ADD19106A" : 0,
+    "3CEAD9F91B3766ACE67A4DD0BCC0B35360438D86" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "595FE9EA-5D6D-4BD4-A5D3-7B9E3433DADA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E079BC4B5242D7F4891DE4F32080693ADD19106A" : "office-radar",
+    "3CEAD9F91B3766ACE67A4DD0BCC0B35360438D86" : "ToDoLite-iOS"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OfficeRadar",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/OfficeRadar\/OfficeRadar.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/couchbaselabs\/ToDoLite-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3CEAD9F91B3766ACE67A4DD0BCC0B35360438D86"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/tleyden\/office-radar.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E079BC4B5242D7F4891DE4F32080693ADD19106A"
+    }
+  ]
+}

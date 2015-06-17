@@ -43,6 +43,7 @@
 		158FBC61195E28CC00A218EE /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158FBC60195E28CC00A218EE /* CoreLocation.framework */; };
 		1599AB971A141EAE007B5A1F /* RDUiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1599AB961A141EAE007B5A1F /* RDUiHelper.m */; };
 		15B61D91196603B100F9E0CB /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B61D90196603B100F9E0CB /* libc++.dylib */; };
+		7955FBB11B31F01000D9B246 /* CBLEdgeReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 7955FBB01B31F01000D9B246 /* CBLEdgeReduce.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,8 @@
 		1599AB951A141EAE007B5A1F /* RDUiHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDUiHelper.h; sourceTree = "<group>"; };
 		1599AB961A141EAE007B5A1F /* RDUiHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDUiHelper.m; sourceTree = "<group>"; };
 		15B61D90196603B100F9E0CB /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		7955FBAF1B31F01000D9B246 /* CBLEdgeReduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBLEdgeReduce.h; path = ../../../razor/CBLEdgeReduce/CBLEdgeReduce.h; sourceTree = "<group>"; };
+		7955FBB01B31F01000D9B246 /* CBLEdgeReduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBLEdgeReduce.m; path = ../../../razor/CBLEdgeReduce/CBLEdgeReduce.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +191,8 @@
 		158FBC14195E0BB000A218EE /* OfficeRadar */ = {
 			isa = PBXGroup;
 			children = (
+				7955FBAF1B31F01000D9B246 /* CBLEdgeReduce.h */,
+				7955FBB01B31F01000D9B246 /* CBLEdgeReduce.m */,
 				158FBC1D195E0BB000A218EE /* RDAppDelegate.h */,
 				158FBC1E195E0BB000A218EE /* RDAppDelegate.m */,
 				158FBC59195E248200A218EE /* RDConstants.h */,
@@ -359,6 +364,7 @@
 				156C5D03195F2B78009D0C58 /* RDBeacon.m in Sources */,
 				15511940195F8E78007C9A54 /* RDLoginViewController.m in Sources */,
 				1599AB971A141EAE007B5A1F /* RDUiHelper.m in Sources */,
+				7955FBB11B31F01000D9B246 /* CBLEdgeReduce.m in Sources */,
 				158FBC1F195E0BB000A218EE /* RDAppDelegate.m in Sources */,
 				155119491961B555007C9A54 /* RDDatabaseHelper.m in Sources */,
 				158FBC1B195E0BB000A218EE /* main.m in Sources */,

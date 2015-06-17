@@ -5,6 +5,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "RDDatabaseHelper.h"
 #import "RDUserHelper.h"
+#import "CBLEdgeReduce.h"
+
 
 @implementation RDAppDelegate
 
@@ -18,7 +20,7 @@
     }
     [self initCouchbaseLiteDatabase];
     [self initOfficeRadarBeaconManager];
-    [self initCouchbaseReduceInto];
+    [self initCouchbaseEdgeReduce];
     [self initCouchbaseLiteReplications];
     [self registerForPushNotifications];
     
@@ -133,45 +135,19 @@
     
 }
 
-- (void)initCouchbaseReduceInto {
-    self.liveQuery = [self createLiveQuery];
-    [self.liveQuery addObserver: self forKeyPath: @"rows"
-                        options: 0 context: NULL];
-    [self.liveQuery start];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (object == self.liveQuery) {
-        for (CBLQueryRow* row in self.liveQuery.rows) {
-            NSLog(@"key %@ value %@", row.key, row.value);
-            [self saveIntoDocForRow: row];
-        }
-    }
-}
-
-- (void) saveIntoDocForRow:(CBLQueryRow *) row {
-    NSError *err;
-    NSString* rowId = [[NSString alloc]
-                       initWithData:[NSJSONSerialization dataWithJSONObject:@[row.key] options:0 error:&err]
-                       encoding:NSUTF8StringEncoding];
-    CBLDocument* doc = [self.intoTarget documentWithID:[@"into" stringByAppendingString:rowId]];
-    NSLog(@"saveIntoDocForRow %@", rowId);
-    [doc putProperties:@{@"key" : row.key, @"value": row.value, @"type":@"into"} error:&err];
-    if (err != nil) {
-        NSLog(@"err saveIntoDocForRow %@", err);
-    }
-}
-
-
-- (CBLLiveQuery *) createLiveQuery {
+- (void)initCouchbaseEdgeReduce {
+    self.edge = [[CBLEdgeReduce alloc] init];
     CBLQuery* query = [self actionCountByHours];
     query.groupLevel = 1;
-    return [query asLiveQuery];
+    self.edge.query = query;
+    self.edge.target = self.intoTarget;
+    self.edge.prefix = @"radar"; // 90% of the time this will be user id or device id
+    [self.edge start];
+    CBLReplication * pushReduce = [self.edge.target createPushReplication:[NSURL URLWithString:kSyncURL]];
+    [pushReduce setContinuous:YES];
+    [pushReduce start];
 }
+
 
 - (CBLQuery *) actionCountByHours {
     CBLView* view = [self.database viewNamed: @"hours"];
@@ -187,7 +163,6 @@
                 NSDate *date = [dateFormat dateFromString:dateString];
                 if (date != nil) {
                     NSDateComponents *components = [calendar components:(NSHourCalendarUnit) fromDate:date];
-
                     emit([NSNumber numberWithInteger:[components hour]], doc[@"action"]);
                 }
             }
@@ -216,18 +191,15 @@
     NSURL *syncUrl = [NSURL URLWithString:kSyncURL];
     CBLReplication *pullReplication = [[self database] createPullReplication:syncUrl];
     CBLReplication *pushReplication = [[self database] createPushReplication:syncUrl];
-    CBLReplication *pushInto = [[self intoTarget] createPushReplication:syncUrl];
     
     // websockets disabled until https://github.com/couchbase/couchbase-lite-ios/issues/480 is fixed
     pullReplication.customProperties = @{@"websocket": @NO};
     
     [pullReplication setContinuous:YES];
     [pushReplication setContinuous:YES];
-    [pushInto setContinuous:YES];
     
     [pullReplication start];
     [pushReplication start];
-    [pushInto start];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(replicationProgress:)
