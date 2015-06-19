@@ -113,7 +113,6 @@
 
 - (void)handleDbChange:(CBLDatabaseChange *)change {
     
-    NSLog(@"Document '%@' changed.", change.documentID);
     
     // if it's not type=beacon, ignore it
     CBLDocument *changedDoc = [[self database] documentWithID:[change documentID]];
@@ -124,6 +123,7 @@
     if (![docType isEqualToString:kDocTypeBeacon]) {
         return;
     }
+    NSLog(@"beacon document '%@' changed.", change.documentID);
     
     RDBeacon *beacon = [RDBeacon modelForDocument:changedDoc];
     [self startMonitoringForBeacon:beacon];
