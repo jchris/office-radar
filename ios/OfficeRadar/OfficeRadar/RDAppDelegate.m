@@ -141,7 +141,10 @@
     query.groupLevel = 1;
     self.edge.query = query;
     self.edge.target = self.intoTarget;
-    self.edge.prefix = @"radar"; // 90% of the time this will be user id or device id
+    self.edge.viewName = @"radar";
+    self.edge.sourceID = @"all";
+    // 90% of the time this will be user id or device id
+    // this value can also rotate as batches roll over
     [self.edge start];
     CBLReplication * pushReduce = [self.edge.target createPushReplication:[NSURL URLWithString:kSyncURL]];
     [pushReduce setContinuous:YES];

@@ -44,6 +44,7 @@
 		1599AB971A141EAE007B5A1F /* RDUiHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1599AB961A141EAE007B5A1F /* RDUiHelper.m */; };
 		15B61D91196603B100F9E0CB /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B61D90196603B100F9E0CB /* libc++.dylib */; };
 		7955FBB11B31F01000D9B246 /* CBLEdgeReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 7955FBB01B31F01000D9B246 /* CBLEdgeReduce.m */; };
+		7955FBB21B3CC64800D9B246 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158FBC49195E123500A218EE /* CouchbaseLite.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7955FBB21B3CC64800D9B246 /* CouchbaseLite.framework in Frameworks */,
 				158FBC34195E0BB000A218EE /* XCTest.framework in Frameworks */,
 				158FBC36195E0BB000A218EE /* UIKit.framework in Frameworks */,
 				158FBC35195E0BB000A218EE /* Foundation.framework in Frameworks */,
@@ -569,6 +571,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OfficeRadar/OfficeRadar-Prefix.pch";
@@ -591,6 +594,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OfficeRadar/OfficeRadar-Prefix.pch";
